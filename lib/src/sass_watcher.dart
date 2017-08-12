@@ -30,7 +30,7 @@ class SassWatcher {
     final watcher = new DirectoryWatcher(pathLib.canonicalize(_path));
     print('Watching scss file changes...');
     watcher.events.listen((WatchEvent event) async {
-      if (_isSassFile(event.path) && _ignores.isTarget(event.path)) {
+      if (_isSassFile(event.path) && !_ignores.isTarget(event.path)) {
         await _compileRunner.run();
         print('Watching scss file changes...');
       }
