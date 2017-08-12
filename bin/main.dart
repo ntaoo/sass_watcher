@@ -2,7 +2,7 @@ import 'package:args/args.dart';
 import 'package:sass_watcher/sass_watcher.dart';
 
 main(List<String> arguments) async {
-  final parser = new ArgParser()..addOption(ArgOptions.path);
+  final parser = new ArgParser()..addOption(ArgOptions.path, defaultsTo: './');
   ArgResults argResults = parser.parse(arguments);
   final path = argResults[ArgOptions.path];
   new SassWatcher(path, ignores: ignores).run();
