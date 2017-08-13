@@ -18,9 +18,9 @@ class SassWatcher {
   final Compiler _compileRunner;
   final Ignores _ignores;
 
-  factory SassWatcher(String path, {List<String> ignores}) {
+  factory SassWatcher(String path, {List<String> ignores, bool verbose}) {
     final i = new Ignores(ignores);
-    return new SassWatcher._(path, new Compiler(path, i), i);
+    return new SassWatcher._(path, new Compiler(path, i, verbose), i);
   }
 
   SassWatcher._(this._path, this._compileRunner, this._ignores);
@@ -33,7 +33,6 @@ class SassWatcher {
     watcher.events.listen((WatchEvent event) async {
       if (_isSassFile(event.path) && !_ignores.isTarget(event.path)) {
         await _runCompiler();
-        print('Watching scss file changes...');
       }
     });
   }
