@@ -15,7 +15,7 @@ part './compiler.dart';
 
 class SassWatcher {
   final String _path;
-  final Compiler _compileRunner;
+  final Compiler _compiler;
   final Ignores _ignores;
 
   factory SassWatcher(String path, {List<String> ignores, bool verbose}) {
@@ -23,7 +23,7 @@ class SassWatcher {
     return new SassWatcher._(path, new Compiler(path, i, verbose), i);
   }
 
-  SassWatcher._(this._path, this._compileRunner, this._ignores);
+  SassWatcher._(this._path, this._compiler, this._ignores);
 
   Future run() async {
     await _runCompiler();
@@ -43,7 +43,7 @@ class SassWatcher {
 
   Future<Null> _runCompiler() async {
     try {
-      await _compileRunner.run();
+      await _compiler.run();
     } on SassException catch (e) {
       print(e);
     }
