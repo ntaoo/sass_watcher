@@ -12,9 +12,16 @@ Quick, fragile, transient hack to compile sass without pub transformer.
     
 #### Run
 
-    sass_watcher --path=path-to-watch
-    
-The --path default value is './'.
+    sass_watcher --path=path-to-watch    
+
+##### Options
+
+--path : specify path to watch. The default value is './'.
+
+##### Flags
+
+--verbose : enable verbose mode (currently almost useless).    
+
 
 ### Ignore paths
 

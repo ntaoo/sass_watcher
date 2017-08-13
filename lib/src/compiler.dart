@@ -4,9 +4,10 @@ class Compiler {
   static final String _scssExtensionGlob = '**.scss';
   final String _path;
   final Ignores _ignores;
+  final bool _verbose;
   final Glob _sassFile;
 
-  Compiler(this._path, this._ignores)
+  Compiler(this._path, this._ignores, this._verbose)
       : _sassFile = new Glob(pathLib.absolute(_path, _scssExtensionGlob));
 
   /// Run all scss compilations.
@@ -19,7 +20,10 @@ class Compiler {
       final path = pathLib.normalize(entity.path);
 
       if (_isCompileTarget(path)) {
-        print('Compiling ${path}');
+        if (_verbose) {
+          print('Compiling ${path}');
+        }
+
         final resultCSS = sass.compile(path);
         final resultPath =
             '${pathLib.dirname(path)}/${pathLib.basenameWithoutExtension(
