@@ -9,7 +9,10 @@ class Compiler {
   Compiler(this._path, this._ignores)
       : _sassFile = new Glob(pathLib.absolute(_path, _scssExtensionGlob));
 
-  Future run() async {
+  /// Run all scss compilations.
+  ///
+  /// sass.compile can throw [SassException]. Caller should handle it.
+  Future<Null> run() async {
     final compileResult = new CompileResult();
 
     for (final entity in _sassFile.listSync()) {

@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart' as pathLib;
 import 'package:sass/sass.dart' as sass;
+import 'package:sass/src/exception.dart';
 import 'package:tuple/tuple.dart';
 import 'package:watcher/watcher.dart';
 
@@ -25,13 +26,13 @@ class SassWatcher {
   SassWatcher._(this._path, this._compileRunner, this._ignores);
 
   Future run() async {
-    await _compileRunner.run();
+    await _runCompiler();
 
     final watcher = new DirectoryWatcher(pathLib.canonicalize(_path));
     print('Watching scss file changes...');
     watcher.events.listen((WatchEvent event) async {
       if (_isSassFile(event.path) && !_ignores.isTarget(event.path)) {
-        await _compileRunner.run();
+        await _runCompiler();
         print('Watching scss file changes...');
       }
     });
@@ -39,5 +40,13 @@ class SassWatcher {
 
   bool _isSassFile(String basename) {
     return basename.endsWith('.scss');
+  }
+
+  Future<Null> _runCompiler() async {
+    try {
+      await _compileRunner.run();
+    } on SassException catch (e) {
+      print(e);
+    }
   }
 }
